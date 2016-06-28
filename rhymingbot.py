@@ -202,5 +202,6 @@ def rhymingbot():
 
 while True:
     rhymingbot()
+    time.sleep(WAIT)
     if time.time()-start_time > 2700:
         login()
