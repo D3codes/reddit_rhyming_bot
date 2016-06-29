@@ -15,7 +15,6 @@ SETRHYMINGPHRASES = ["I need a rhyme for "]
 SETPRONUNCIATIONPHRASES = ["How do you pronounce "]
 STARTRESPONSE = "Here are words that rhyme with "
 ENDRESPONSE = "~BLEEP BLOOP~ I am a bot made by /u/jellyw00t ~BLEEP BLOOP~ \n\n"
-ENDINSTRUCTIONS = "To call me say \"I need a rhyme for _____\" \n\n"
 ENDCREDITS = "My rhymes are generated using this phonetic dictionary published by Carnegie Mellon: http://bit.ly/28WhK8H"
 
 WAIT = 20
@@ -56,8 +55,12 @@ def generate_response(comment):
     print("Generating rhymes for " + word)
     build_dictionary()
     rhymes = top_ten_rhymes(word)
+    if rhymes == "That word is not in my dictionary":
+        return "That word is not in my dictionary"
+    if rhymes == "No rhymes found":
+        return "No rhymes found"
 
-    response = STARTRESPONSE + word.upper() + ": \n\n" + rhymes
+    response = STARTRESPONSE + "*"+word.upper()+"*" + ": \n\n" + rhymes
 
     return response
 
@@ -86,7 +89,7 @@ def build_dictionary():
 def top_ten_rhymes(word):
     all_rhymes = find_rhymes(word)
     if len(all_rhymes) == 0:
-        return "No Rhymes Found"
+        return "No rhymes found"
     if len(all_rhymes) == 1:
         return "That word is not in my dictionary"
 
@@ -114,13 +117,17 @@ def top_ten_rhymes(word):
                 top_ten.append(rhyme)
                 break
 
+    counter = 0
     for word in top_ten:
         if word == "knep aloi":
-            top_ten.remove(word)
+            counter += 1
+
+    for i in range(1, counter):
+        top_ten.remove("knep aloi")
 
     response = ""
     for rhyme in top_ten:
-        response += rhyme+" \n\n"
+        response += "* "+rhyme+" \n\n"
 
     return response
 
@@ -204,4 +211,5 @@ while True:
     rhymingbot()
     time.sleep(WAIT)
     if time.time()-start_time > 2700:
+        start_time = time.time()
         login()
