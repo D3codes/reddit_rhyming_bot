@@ -107,7 +107,7 @@ def top_ten_rhymes(word):
 
     rhyme_dict["knep aloi"] = -1
     top_ten = list()
-    for i in range(0, 9):
+    for i in range(0, 10):
         top_ten.append("knep aloi")
 
     for rhyme in rhyme_dict:
